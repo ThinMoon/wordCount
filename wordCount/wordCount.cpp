@@ -50,12 +50,12 @@ void input ()//huan
 	
 }
 
-int count_characters(string )//lin
+int count_characters(string )//linguoqin
 {
 	
 }
 
-int count_line(string )//hu
+int count_line(string )//huchenyu
 {
    int len = s.length();
    int num=1;
@@ -75,7 +75,7 @@ bool com(struct count_string a,struct count_string b)
 }
 bool is_word(string a);
 string lowcase(string );
-int count_word(string )//wu
+int count_word(string )//wuss
 {
 	int sum=0;
 	char c[30]={0};
@@ -347,6 +347,9 @@ int main()
     int n,m;
 	cin>>n>>m;
 	 
+	///asdasdsdadasdasdsdasdas
+	////asdasdasdasd
+	
 }
 
 
