@@ -104,7 +104,7 @@ int count_word(string arr)//wu
 			}	
 			else
 			{
-				if(j==arr.length()-1)
+				if(j==arr.length()-1&&((arr[j]<='z'&&arr[j]>='a')||(arr[j]<='9'&&arr[j]>='0')))
 				{
 					c[k]=arr[j];
 					k++;	
