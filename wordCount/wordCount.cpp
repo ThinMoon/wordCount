@@ -31,6 +31,14 @@ typedef double db;
 typedef vector<int> vi;
 typedef pair<int, int> pii;
 const int inf=0x3f3f3f3f;
+
+struct count_string	//wu
+{
+	string s;
+	int count=0;
+}count_s[100];
+int word_l=0;
+
 void input ()//huan
 {
 	
@@ -53,9 +61,74 @@ int count_line(string )//hu
    return num;
 }
 
-int count_word(string )//wu
+bool com(struct count_string a,struct count_string b)	//wu
 {
-	
+	if(a.count!=b.count)
+		return a.count>b.count;
+	else
+		a.s<b.s;
+}
+string lowcase(string a_str);//wu
+int count_word(string arr)//wu
+{
+	int sum=0;
+	char c[30]={0};
+	int k=0;
+	arr=lowcase(arr);
+
+		for(int j=0;j<arr.length();j++)
+		{
+			if(((arr[j]<='z'&&arr[j]>='a')||(arr[j]<='9'&&arr[j]>='0'))&&j!=arr.length()-1)
+			{
+				c[k]=arr[j];
+				k++;
+			}	
+			else
+			{
+				if(j==arr.length()-1)
+				{
+					c[k]=arr[j];
+					k++;	
+				}
+				string c1=c;
+				if(is_word(c1)==true)
+				{
+					sum++;
+					int x;
+					if(word_l==0)
+					{
+						count_s[word_l].count=1;
+						count_s[word_l].s=c1;
+						word_l++;
+						
+					}
+					else
+					{
+						for(x=0;x<word_l;x++)
+						{
+							if(c1==count_s[x].s)
+							{
+								count_s[x].count++;
+								break;
+							}
+							
+						}
+						if(x>=word_l)
+						{
+							count_s[word_l].count=1;
+							count_s[word_l].s=c1;
+							word_l++;
+						}
+					}
+					
+				}	
+				c1="";
+				memset(c,0,sizeof(c));
+				k=0;
+			}
+		}
+		sort(count_s,count_s+word_l,com);
+		return sum;
 }
 
 bool is_word(string )//zou
