@@ -89,7 +89,7 @@ string lowcase(string )//wang
 	
 }
 
-int count_phrase(int m,string )//zhang
+int count_phrase(int m,string s)//zhang
 {
 	//	de(s);
 //	cout<<s.size()<<endl;
