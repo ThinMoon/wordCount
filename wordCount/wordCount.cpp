@@ -11,7 +11,7 @@
 #include <complex>
 #include<stack>
 #include <iomanip>
-#include <ctype.h> 
+#include <fstream>
 using namespace std;
 #define fi first
 #define se second
@@ -43,29 +43,11 @@ struct count_string
 {
 	string s;
 	int count=0;
-}count_s[100];
+}count_s[10000];
 int word_l=0;
-void input ()//huan
-{
-	
-}
-
-int count_characters(string )//linguoqin
-{
-	
-}
-
-int count_line(string )//huchenyu
-{
-   int len = s.length();
-   int num=1;
-   for(int j=0;j<len;j++){
-   	if(s[j]=='\n'){
-   		num++;
-   	}
-   }
-   return num;
-}
+int sum=0;
+int c_c=0;
+int c_l=0;
 bool com(struct count_string a,struct count_string b)
 {
 	if(a.count!=b.count)
@@ -73,12 +55,43 @@ bool com(struct count_string a,struct count_string b)
 	else
 		a.s<b.s;
 }
-bool is_word(string a);
-string lowcase(string );
-int count_word(string )//wuss
+bool cmp(po a, po b)
 {
-	int sum=0;
-	char c[30]={0};
+	if(a.count==b.count)
+	{
+		return a.name<b.name;
+	} 
+	return a.count>b.count;
+} 
+bool is_word(string a)//zou
+{
+	int len=a.length();
+	int i;
+	int k=0;//统计开头连续的字母个数
+	if(len<4) return false; //字符数组长度不足4则不是单词 
+	for(i=0;i<len;i++)
+	{
+		if(a[i]>=97&&a[i]<=122) k++; //是字母则+1 
+		if(i==3)
+		{
+			if(k<4)
+				return false; //已经统计了4个但没有4个字母则报错
+			else break;
+		}
+	}
+	return true;
+}
+string lowcase(string str)//wang
+{
+	for(int i=0;i<str.length();i++){
+        str[i]=tolower(str[i]);
+    }
+    return str;
+}
+int count_word(string arr)//wu
+{
+	
+	char c[300]={0};
 	int k=0;
 	arr=lowcase(arr);
 
@@ -133,40 +146,10 @@ int count_word(string )//wuss
 				k=0;
 			}
 		}
-		sort(count_s,count_s+word_l,com);
-		return sum;
 }
-
-bool is_word(string a)//zou
+void count_phrase(int m,string s)//m>=2
 {
-	int len=a.length();
-	int i;
-	int k=0;//统计开头连续的字母个数
-	if(len<4) return false; //字符数组长度不足4则不是单词 
-	for(i=0;i<len;i++)
-	{
-		if(a[i]>=97&&a[i]<=122) k++; //是字母则+1 
-		if(i==3)
-		{
-			if(k<4)
-				return false; //已经统计了4个但没有4个字母则报错
-			else break;
-		}
-	}
-	return true;
-}
-
-string lowcase(string str)//wang
-{
-	for(int i=0;i<str.length();i++){
-        str[i]=tolower(str[i]);
-    }
-    return str;
-}
-
-int count_phrase(int m,string s)//zhang
-{
-	//	de(s);
+//	de(s);
 //	cout<<s.size()<<endl;
 	int c=0;//空格个数
 	string tp=""; 
@@ -241,6 +224,7 @@ int count_phrase(int m,string s)//zhang
 			{
 				string low=lowcase(tp);
 				bool flag=is_word(low);
+			//	de(flag);
 				if(flag)
 				{
 					ans+=low;
@@ -254,17 +238,19 @@ int count_phrase(int m,string s)//zhang
 					tp="";
 					c=0;
 				}
+				
+			//	de(ans);
 			}
 		
 		}
 		else if(s[i]!=' '&&!(s[i]>='a'&&s[i]<='z')&&!(s[i]>='A'&&s[i]<='Z')&&!(s[i]>='0'&&s[i]<='9'))
 		{
-			de(c);
+			//de(c);
 			if(c==m-1)
 			{
 				string low=lowcase(tp);
 				bool flag=is_word(low);
-				de(flag);
+			//	de(flag);
 				if(flag)
 				{
 					ans+=low;
@@ -305,53 +291,129 @@ int count_phrase(int m,string s)//zhang
 		}
 	}
 }
-
-void output()//ye
+int count_line(string s)//hu
 {
-    out_file<<"characters:"<<count_characters(s)<<endl;
-    out_file<<"words:"<<count_word(s)<<endl;
-    out_file<<"lines:"<<count_line(s)<<endl;
-    for(int i=0;i<cc;i++)
-    ofs<<"<"<<p[i].name<<">"<<": "<<p[i].count<<endl;
+   	if(s.length()!=0)
+   	{
+   		c_l++;
+   	}
+   	c_c++;
+}
+int count_characters(string str)
+{
+	int len=str.length();
+	for(int i=0;i<len;++i)
+	{
+		//cout<<str[i];//打印字符串 
+		if(str[i]>=0&&str[i]<256)
+		{
+			++c_c;
+		}
+	}
 	
 }
-
-int main()//wen
+int main(int argc, char *argv[])
 {
-	
-} 
-
-
-bool cmp(int a,int b)//sort qiu
-{
-	if(rank[a]>rank[b])return a>b;
-	else if(rank[a]==rank[b])return word[a]<word[b];
+ //	std::ios::sync_with_stdio(false);
+   // cin.tie(0);
+   string a, b, c, d,e;
+    a = "-m";
+    b = "-n";
+    c = "-i";
+    d = "-o";
+    int n=-1,m=-1;
+   
+    for(int i=1;i<argc;i++)
+    {
+    	if(argv[i]==c)
+    	{
+    		freopen(argv[i+1], "r", stdin);
+    		e=argv[i+1];
+    		//ifstream ifile(argv[i+1]);
+    	}
+    	else if(argv[i]==d)
+    	{
+    		freopen(argv[i+1], "w", stdout);
+    	}
+    	else if(argv[i]==a)
+    	{
+    		m=0;
+    		int len=strlen(argv[i+1]);
+    		for(int j=0;j<len;j++)
+    		{
+    			m=m*10+argv[i+1][j]-'0';
+    		}
+    		
+    	}
+    	else if(argv[i]==b)
+    	{
+    		n=0;
+    		int len=strlen(argv[i+1]);
+    		for(int j=0;j<len;j++)
+    		{
+    			n=n*10+argv[i+1][j]-'0';
+    		}
+    	}
+    }
+    ifstream ifile(e);
+    if(n==-1)
+    {
+    	n=10;
+    }
+   	while(!ifile.eof())
+   	{
+   		
+   		string s;
+   		getline(ifile,s);
+   		count_word(s);
+   		if(m>=2)
+   		{
+   			count_phrase(m,s);
+   		}
+   		
+   		count_characters(s);
+   		count_line(s);
+   	}
+   	sort(count_s,count_s+word_l,com);
+   	sort(p,p+cc,cmp);
+   	cout<<"characters: "<<c_c-1<<endl;
+   	cout<<"words: "<<sum<<endl;
+   	cout<<"lines: "<<c_l<<endl;
+   	if(m==-1||m==1)
+   	{
+   		for(int i=0;i<min(n,word_l);i++)
+   		{
+   			cout<<"<"<<count_s[i].s<<">: ";
+   			if(i==min(n,word_l)-1)
+   			{
+   				cout<<count_s[i].count;
+   			}
+   			else
+   			{
+   				cout<<count_s[i].count<<endl;
+   			}
+   			
+   		}
+   	}
+   	else if(m>=2)
+   	{
+	   	for(int i=0;i<min(n,cc);i++)
+	   	{
+	   		cout<<"<"<<p[i].name<<">: ";
+	   		if(i==min(n,cc)-1)
+	   		{
+	   			cout<<p[i].count;
+	   		}
+	   		else
+	   		{
+	   			cout<<p[i].count<<endl;
+	   		}
+	   		
+	   	}
+   	}
+    return 0;
+    
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-int main()
-{
- 	std::ios::sync_with_stdio(false);
-    cin.tie(0);
-    int n,m;
-	cin>>n>>m;
-	 
-	///asdasdsdadasdasdsdasdas
-	////asdasdasdasd
-	//ASDASDASDKLASDKLSDKLFJSDKFDSKL;HSDJFHSDKJFSDKHSDKJFHSDFJDLFKDSLFJASDFJKHDSLFGDFDSCVD
-	
-}
-
-
+/*w.exe -i input.txt -o output.txt -m 3 -n 10*/
 
