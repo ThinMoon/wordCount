@@ -11,6 +11,7 @@
 #include <complex>
 #include<stack>
 #include <iomanip>
+#include<ctype.h> 
 using namespace std;
 #define fi first
 #define se second
@@ -56,9 +57,12 @@ bool is_word(string )//zou
 	
 }
 
-sting lowcase(string )//wang
+string lowcase(string str)//wang
 {
-	
+	for(int i=0;i<str.length();i++){
+        str[i]=tolower(str[i]);
+    }
+    return str;
 }
 
 int count_phrase(int m,string )//zhang
